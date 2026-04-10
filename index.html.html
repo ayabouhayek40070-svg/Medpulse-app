@@ -1,0 +1,594 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);}
+
+.app{background:#0a0f1e;min-height:800px;border-radius:16px;overflow:hidden;}
+
+.page{display:none;animation:fi .22s ease;}
+.page.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 18px;background:#0d1428;border-bottom:0.5px solid #1e2a4a;}
+.tb-logo{font-size:15px;font-weight:500;color:#e0eaf8;flex:1;}
+.tb-role{font-size:11px;padding:3px 10px;border-radius:20px;}
+.tb-role.blue{background:#0d1a30;color:#4a9eff;}
+.tb-role.green{background:#0d2a1a;color:#22cc77;}
+.tb-user{font-size:12px;color:#5577aa;}
+.tb-out{font-size:11px;color:#445577;cursor:pointer;padding:4px 10px;border:0.5px solid #1e2a4a;border-radius:8px;}
+.tb-out:hover{background:#1e2a4a;}
+
+/* NAV */
+.nav{display:flex;background:#0d1428;border-bottom:0.5px solid #1e2a4a;}
+.nb{flex:1;padding:9px 4px;text-align:center;font-size:10px;color:#33445577;cursor:pointer;border:none;background:none;transition:color .2s;border-bottom:2px solid transparent;}
+.nb.active{color:#4a9eff;border-bottom-color:#4a9eff;}
+.nb.green.active{color:#22cc77;border-bottom-color:#22cc77;}
+
+/* CARDS */
+.card{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:12px;padding:14px;margin-bottom:10px;}
+.card.hl{border-color:#4a9eff33;background:#0d1a30;}
+.card.hlg{border-color:#22cc7733;background:#0d2a1a;}
+
+/* LANDING */
+.landing{padding:36px 20px;text-align:center;background:#0a0f1e;}
+.l-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px;}
+.l-icon{width:46px;height:46px;border-radius:12px;background:#185FA5;display:flex;align-items:center;justify-content:center;}
+.l-icon svg{width:26px;height:26px;fill:white;}
+.l-title{font-size:26px;font-weight:500;color:#e0eaf8;}
+.l-sub{font-size:12px;color:#445577;margin-bottom:32px;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:440px;margin:0 auto 24px;}
+.pc{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:14px;padding:24px 16px;cursor:pointer;transition:border-color .2s;}
+.pc:hover{border-color:#334466;}
+.pc.doc{border-top:3px solid #185FA5;}
+.pc.pat{border-top:3px solid #1D9E75;}
+.pc-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.pc-ic.b{background:#0d1a30;}
+.pc-ic.g{background:#0d2a1a;}
+.pc-ic svg{width:24px;height:24px;}
+.pc-t{font-size:14px;font-weight:500;color:#aabbcc;margin-bottom:4px;}
+.pc-s{font-size:11px;color:#445577;}
+.pc-btn{display:inline-block;margin-top:12px;padding:7px 18px;border-radius:8px;font-size:12px;font-weight:500;}
+.pc-btn.b{background:#0d1a30;color:#4a9eff;}
+.pc-btn.g{background:#0d2a1a;color:#22cc77;}
+.l-foot{font-size:11px;color:#2a3a55;}
+
+/* LOGIN */
+.login-wrap{max-width:360px;margin:0 auto;padding:28px 20px;}
+.bk{font-size:12px;color:#445577;cursor:pointer;margin-bottom:18px;display:inline-flex;align-items:center;gap:4px;}
+.bk:hover{color:#8899bb;}
+.lc{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:14px;padding:24px;}
+.la{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.la.b{background:#0d1a30;} .la.g{background:#0d2a1a;}
+.la svg{width:26px;height:26px;}
+.lt{font-size:16px;font-weight:500;color:#aabbcc;text-align:center;}
+.ls{font-size:12px;color:#445577;text-align:center;margin-top:3px;margin-bottom:18px;}
+.fl{display:block;font-size:11px;color:#445577;margin-bottom:5px;}
+.fi{width:100%;padding:9px 12px;border:0.5px solid #1e2a4a;border-radius:8px;font-size:13px;background:#060c1a;color:#aabbcc;outline:none;margin-bottom:12px;}
+.fi:focus{border-color:#378ADD;}
+.lbtn{width:100%;padding:11px;border-radius:8px;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:2px;}
+.lbtn.b{background:#185FA5;color:white;}
+.lbtn.g{background:#1D9E75;color:white;}
+.hint{font-size:11px;color:#2a3a55;text-align:center;margin-top:8px;}
+.err{font-size:12px;color:#ff4a4a;text-align:center;margin-top:8px;display:none;}
+
+/* BODY */
+.body{padding:16px;}
+.sec{font-size:10px;font-weight:500;color:#334466;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;}
+.row{display:flex;align-items:center;gap:10px;}
+
+/* BADGES */
+.bado{background:#0d2a1a;color:#22cc77;font-size:10px;padding:2px 8px;border-radius:20px;}
+.badw{background:#2a1a0d;color:#ff9922;font-size:10px;padding:2px 8px;border-radius:20px;}
+.bada{background:#2a0d0d;color:#ff4a4a;font-size:10px;padding:2px 8px;border-radius:20px;}
+
+/* DOCTOR dash */
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.sb{background:#060c1a;border-radius:8px;padding:12px;text-align:center;}
+.sbn{font-size:22px;font-weight:500;color:#4a9eff;}
+.sbl{font-size:10px;color:#445577;margin-top:2px;}
+.si{display:flex;gap:8px;margin-bottom:8px;}
+.si input{flex:1;padding:8px 11px;border:0.5px solid #1e2a4a;border-radius:8px;font-size:12px;background:#060c1a;color:#aabbcc;outline:none;}
+.pr{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:10px;padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s;}
+.pr:hover{border-color:#334466;}
+.pav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;}
+.pi2{flex:1;}
+.pn{font-size:13px;font-weight:500;color:#aabbcc;}
+.pm{font-size:11px;color:#445577;margin-top:2px;}
+
+/* DOSSIER */
+.dh{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:12px;padding:16px;margin-bottom:12px;display:flex;gap:12px;align-items:center;}
+.dav{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;flex-shrink:0;}
+.dn{font-size:16px;font-weight:500;color:#aabbcc;}
+.ds{font-size:11px;color:#445577;margin-top:2px;}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.ii{font-size:11px;}
+.il{color:#445577;} .iv{color:#8899bb;font-weight:500;}
+.ec{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:10px;padding:12px;margin-bottom:8px;}
+.eh{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ei{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ei.b{background:#0d1a30;} .ei.g{background:#0d2a1a;} .ei.a{background:#2a1a0d;}
+.ei svg{width:16px;height:16px;}
+.et{font-size:12px;font-weight:500;color:#aabbcc;}
+.ed{font-size:10px;color:#445577;}
+.em3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.emb{background:#060c1a;border-radius:7px;padding:7px;text-align:center;}
+.emv{font-size:14px;font-weight:500;color:#aabbcc;}
+.eml{font-size:10px;color:#445577;margin-top:2px;}
+
+/* PATIENT dash */
+.ph{background:#0d1428;border-bottom:0.5px solid #1e2a4a;padding:14px 18px;display:flex;gap:12px;align-items:center;}
+.pavi{width:44px;height:44px;border-radius:50%;background:#0d2a1a;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#22cc77;}
+.pname{font-size:15px;font-weight:500;color:#aabbcc;}
+.pid{font-size:11px;color:#445577;}
+.v4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.vb{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:12px;padding:12px;}
+.vl{font-size:10px;color:#445577;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.vv{font-size:24px;font-weight:500;color:#aabbcc;}
+.vu{font-size:11px;color:#445577;}
+
+/* DEVICE PANEL (patient) */
+.conn-bar{display:flex;align-items:center;gap:6px;background:#060c1a;border-radius:9px;padding:7px 12px;margin-bottom:12px;border:0.5px solid #1e2a4a;}
+.dot{width:7px;height:7px;border-radius:50%;background:#22cc77;animation:pl 1.5s infinite;}
+@keyframes pl{0%,100%{opacity:1;}50%{opacity:.4;}}
+.ct{font-size:11px;color:#22cc77;flex:1;}
+.cd{font-size:10px;color:#445577;}
+.mbtn{width:100%;padding:13px;border-radius:12px;border:none;background:#185FA5;color:white;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:12px;transition:opacity .2s;}
+.mbtn:active{opacity:.8;}
+.mbtn.m{background:#9e1a1a;animation:bk 1s infinite;}
+@keyframes bk{0%,100%{opacity:1;}50%{opacity:.7;}}
+.mg4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.mc{background:#0d1428;border:0.5px solid #1e2a4a;border-radius:12px;padding:12px;}
+.mc.full{grid-column:1/-1;}
+.mc.hlb{border-color:#4a9eff33;background:#0d1a30;}
+.ml{font-size:10px;color:#445577;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.mv{font-size:28px;font-weight:500;line-height:1;}
+.mu{font-size:11px;color:#445577;margin-top:2px;}
+.vblue{color:#4a9eff;} .vgreen{color:#22cc77;} .vorange{color:#ff9922;} .vteal{color:#11ddcc;}
+.wave-w{height:44px;border-radius:7px;background:#060c1a;overflow:hidden;margin-top:8px;}
+
+/* TIMELINE */
+.tli{display:flex;gap:10px;margin-bottom:12px;}
+.tld{width:9px;height:9px;border-radius:50%;margin-top:3px;flex-shrink:0;}
+.tld.b{background:#378ADD;} .tld.g{background:#1D9E75;} .tld.a{background:#EF9F27;}
+.tll{width:1px;background:#1e2a4a;flex-shrink:0;margin-left:4px;}
+.tlb{flex:1;padding-bottom:12px;border-bottom:0.5px solid #1e2a4a;}
+.tlt{font-size:12px;font-weight:500;color:#aabbcc;}
+.tldt{font-size:10px;color:#445577;margin-bottom:7px;}
+.tr3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.trb{background:#060c1a;border-radius:7px;padding:6px;text-align:center;}
+.trv{font-size:13px;font-weight:500;color:#aabbcc;}
+.trl{font-size:10px;color:#445577;margin-top:1px;}
+
+/* ALERTS */
+.ali{background:#0d1428;border-radius:10px;padding:11px 13px;margin-bottom:7px;border-left:3px solid;display:flex;gap:8px;}
+.ali.ok{border-color:#22cc77;} .ali.wn{border-color:#ff9922;} .ali.al{border-color:#ff4a4a;} .ali.inf{border-color:#4a9eff;}
+.alico{font-size:16px;margin-top:1px;flex-shrink:0;}
+.alt{font-size:12px;font-weight:500;color:#aabbcc;}
+.ald{font-size:10px;color:#445577;margin-top:2px;}
+.altime{font-size:10px;color:#2a3a55;margin-top:3px;}
+
+/* SETTINGS */
+.phead{text-align:center;padding:8px 0 18px;}
+.avtr{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;}
+.an{font-size:17px;font-weight:500;color:#aabbcc;}
+.as2{font-size:11px;color:#445577;margin-top:3px;}
+.s3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+.stb{background:#0d1428;border-radius:9px;padding:9px;text-align:center;border:0.5px solid #1e2a4a;}
+.stn{font-size:18px;font-weight:500;color:#4a9eff;}
+.stl{font-size:10px;color:#445577;margin-top:2px;}
+.sr{background:#0d1428;border-radius:10px;padding:12px 13px;margin-bottom:7px;border:0.5px solid #1e2a4a;display:flex;align-items:center;gap:10px;}
+.sric{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.srt{flex:1;}
+.srtt{font-size:12px;color:#aabbcc;font-weight:500;}
+.srts{font-size:10px;color:#445577;margin-top:2px;}
+.tgl{width:36px;height:20px;border-radius:10px;background:#22cc77;position:relative;cursor:pointer;border:none;flex-shrink:0;}
+.tgl::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:white;top:3px;right:3px;transition:right .2s;}
+.tgl.off{background:#1e2a4a;}
+.tgl.off::after{right:19px;}
+.chv{color:#2a3a55;font-size:14px;}
+</style>
+
+<div class="app">
+
+<!-- ══ LANDING ══ -->
+<div id="pg-land" class="page active">
+  <div class="landing">
+    <div class="l-logo">
+      <div class="l-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
+      </div>
+      <span class="l-title">MedPulse</span>
+    </div>
+    <div class="l-sub">Plateforme santé connectée · Smart Blood Pressure + SpO₂</div>
+    <div class="pgrid">
+      <div class="pc doc" onclick="goPage('pg-ldoc')">
+        <div class="pc-ic b">
+          <svg viewBox="0 0 24 24" fill="#4a9eff"><path d="M12 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4zM17 8h2v2h2v2h-2v2h-2v-2h-2v-2h2V8z"/></svg>
+        </div>
+        <div class="pc-t">Espace médecin</div>
+        <div class="pc-s">Dossiers patients · Examens · Alertes</div>
+        <div class="pc-btn b">Se connecter</div>
+      </div>
+      <div class="pc pat" onclick="goPage('pg-lpat')">
+        <div class="pc-ic g">
+          <svg viewBox="0 0 24 24" fill="#22cc77"><path d="M12 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/></svg>
+        </div>
+        <div class="pc-t">Espace patient</div>
+        <div class="pc-s">Mesures · Résultats · Historique</div>
+        <div class="pc-btn g">Se connecter</div>
+      </div>
+    </div>
+    <div class="l-foot">Données chiffrées · Conformité RGPD · Accès sécurisé 24h/24</div>
+  </div>
+</div>
+
+<!-- ══ LOGIN DOC ══ -->
+<div id="pg-ldoc" class="page">
+  <div class="login-wrap">
+    <div class="bk" onclick="goPage('pg-land')">‹ Retour</div>
+    <div class="lc">
+      <div class="la b" style="display:flex;margin:0 auto 10px;">
+        <svg viewBox="0 0 24 24" fill="#4a9eff" width="26" height="26"><path d="M12 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4zM17 8h2v2h2v2h-2v2h-2v-2h-2v-2h2V8z"/></svg>
+      </div>
+      <div class="lt">Connexion médecin</div>
+      <div class="ls">Identifiants professionnels requis</div>
+      <label class="fl">Numéro INPE / email</label>
+      <input class="fi" id="de" type="text" value="dr.alami@medpulse.ma"/>
+      <label class="fl">Mot de passe</label>
+      <input class="fi" id="dp" type="password" value="1234"/>
+      <button class="lbtn b" onclick="loginDoc()">Se connecter</button>
+      <div class="err" id="derr">Identifiants incorrects.</div>
+      <div class="hint">Démo : dr.alami@medpulse.ma / 1234</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGIN PAT ══ -->
+<div id="pg-lpat" class="page">
+  <div class="login-wrap">
+    <div class="bk" onclick="goPage('pg-land')">‹ Retour</div>
+    <div class="lc">
+      <div class="la g" style="display:flex;margin:0 auto 10px;">
+        <svg viewBox="0 0 24 24" fill="#22cc77" width="26" height="26"><path d="M12 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/></svg>
+      </div>
+      <div class="lt">Connexion patient</div>
+      <div class="ls">Accès à votre dossier personnel</div>
+      <label class="fl">Email ou numéro patient</label>
+      <input class="fi" id="pe" type="text" value="ahmed.benali@email.ma"/>
+      <label class="fl">Mot de passe</label>
+      <input class="fi" id="pp" type="password" value="1234"/>
+      <button class="lbtn g" onclick="loginPat()">Se connecter</button>
+      <div class="err" id="perr">Identifiants incorrects.</div>
+      <div class="hint">Démo : ahmed.benali@email.ma / 1234</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DOCTOR SHELL ══ -->
+<div id="pg-doc" class="page">
+  <div class="topbar">
+    <span class="tb-logo">MedPulse</span>
+    <span class="tb-role blue">Médecin</span>
+    <span class="tb-user">Dr. Mourad Alami</span>
+    <span class="tb-out" onclick="logout()">Déconnexion</span>
+  </div>
+  <div class="nav">
+    <button class="nb active" id="dn0" onclick="dTab(0)">Patients</button>
+    <button class="nb" id="dn1" onclick="dTab(1)">Alertes</button>
+    <button class="nb" id="dn2" onclick="dTab(2)">Réglages</button>
+  </div>
+
+  <!-- Doc tab: Patients -->
+  <div id="dt0" class="body">
+    <div class="stat3">
+      <div class="sb"><div class="sbn">24</div><div class="sbl">Patients actifs</div></div>
+      <div class="sb"><div class="sbn" style="color:#ff9922;">3</div><div class="sbl">Alertes</div></div>
+      <div class="sb"><div class="sbn" style="color:#22cc77;">8</div><div class="sbl">Examens auj.</div></div>
+    </div>
+    <div class="sec">Dossiers patients</div>
+    <div class="si"><input type="text" placeholder="Rechercher un patient..." oninput="filterP(this.value)"/></div>
+    <div id="plist">
+      <div class="pr" onclick="openD(0)"><div class="pav" style="background:#0d1a30;color:#4a9eff;">AB</div><div class="pi2"><div class="pn">Ahmed Benali</div><div class="pm">48 ans · Hypertension · 09 Avr 2026</div></div><span class="badw">Surveiller</span><span class="chv">›</span></div>
+      <div class="pr" onclick="openD(1)"><div class="pav" style="background:#0d2a1a;color:#22cc77;">FZ</div><div class="pi2"><div class="pn">Fatima Zahra Idrissi</div><div class="pm">35 ans · Diabète type 2 · 07 Avr 2026</div></div><span class="bado">Stable</span><span class="chv">›</span></div>
+      <div class="pr" onclick="openD(2)"><div class="pav" style="background:#2a1a0d;color:#ff9922;">KM</div><div class="pi2"><div class="pn">Karim Mansouri</div><div class="pm">62 ans · Insuff. cardiaque · 05 Avr 2026</div></div><span class="bada">Alerte</span><span class="chv">›</span></div>
+      <div class="pr" onclick="openD(3)"><div class="pav" style="background:#1a0d2a;color:#cc77ff;">SB</div><div class="pi2"><div class="pn">Sara Benjelloun</div><div class="pm">29 ans · Suivi post-partum · 03 Avr 2026</div></div><span class="bado">Stable</span><span class="chv">›</span></div>
+    </div>
+  </div>
+
+  <!-- Doc tab: Alertes -->
+  <div id="dt1" class="body" style="display:none;">
+    <div class="sec">Alertes actives</div>
+    <div class="ali al"><div class="alico" style="color:#ff4a4a;">!</div><div><div class="alt">Tension critique — Karim Mansouri</div><div class="ald">158/98 mmHg · SpO₂ 94% — monitoring urgent</div><div class="altime">Aujourd'hui 08:42</div></div></div>
+    <div class="ali wn"><div class="alico" style="color:#ff9922;">▲</div><div><div class="alt">Tension élevée — Ahmed Benali</div><div class="ald">138/88 mmHg détectée hier soir</div><div class="altime">Hier 21:15</div></div></div>
+    <div class="ali inf"><div class="alico" style="color:#4a9eff;">i</div><div><div class="alt">Rappel de consultation</div><div class="ald">Fatima Zahra Idrissi — bilan HbA1c à programmer</div><div class="altime">Hier 09:00</div></div></div>
+    <div class="ali ok"><div class="alico" style="color:#22cc77;">✓</div><div><div class="alt">Constantes normales — Sara Benjelloun</div><div class="ald">Suivi post-partum satisfaisant</div><div class="altime">Il y a 2 jours</div></div></div>
+  </div>
+
+  <!-- Doc tab: Réglages -->
+  <div id="dt2" class="body" style="display:none;">
+    <div class="phead">
+      <div class="avtr" style="background:#0d1a30;color:#4a9eff;">MA</div>
+      <div class="an">Dr. Mourad Alami</div>
+      <div class="as2">Cardiologue · N° INPE : 12345678</div>
+    </div>
+    <div class="sec">Appareil & connexion</div>
+    <div class="sr"><div class="sric" style="background:#0d1a30;">📡</div><div class="srt"><div class="srtt">Sync automatique MedPulse</div><div class="srts">Réception en temps réel</div></div><button class="tgl" onclick="this.classList.toggle('off')"></button></div>
+    <div class="sr"><div class="sric" style="background:#0d2a1a;">🔔</div><div class="srt"><div class="srtt">Alertes critiques SMS</div><div class="srts">Seuil : TA > 140/90</div></div><button class="tgl" onclick="this.classList.toggle('off')"></button></div>
+    <div class="sr"><div class="sric" style="background:#2a1a0d;">📤</div><div class="srt"><div class="srtt">Partage dossiers PDF</div><div class="srts">Export automatique</div></div><button class="tgl off" onclick="this.classList.toggle('off')"></button></div>
+  </div>
+</div>
+
+<!-- ══ DOSSIER PAGE (doc) ══ -->
+<div id="pg-dos" class="page">
+  <div class="topbar">
+    <span class="tb-logo">MedPulse</span>
+    <span class="tb-role blue">Médecin</span>
+    <span class="tb-user">Dr. Mourad Alami</span>
+    <span class="tb-out" onclick="logout()">Déconnexion</span>
+  </div>
+  <div class="body">
+    <div class="bk" onclick="goPage('pg-doc')">‹ Liste patients</div>
+    <div id="dos-content"></div>
+  </div>
+</div>
+
+<!-- ══ PATIENT SHELL ══ -->
+<div id="pg-pat" class="page">
+  <div class="topbar">
+    <span class="tb-logo">MedPulse</span>
+    <span class="tb-role green">Patient</span>
+    <span class="tb-user">Ahmed Benali</span>
+    <span class="tb-out" onclick="logout()">Déconnexion</span>
+  </div>
+  <div class="nav">
+    <button class="nb green active" id="pn0" onclick="pTab(0)">Accueil</button>
+    <button class="nb green" id="pn1" onclick="pTab(1)">Mesure</button>
+    <button class="nb green" id="pn2" onclick="pTab(2)">Examens</button>
+    <button class="nb green" id="pn3" onclick="pTab(3)">Alertes</button>
+    <button class="nb green" id="pn4" onclick="pTab(4)">Profil</button>
+  </div>
+
+  <!-- Pat tab 0: Accueil -->
+  <div id="pt0">
+    <div class="ph">
+      <div class="pavi">AB</div>
+      <div><div class="pname">Ahmed Benali</div><div class="pid">N° MP-00142 · Dr. Mourad Alami</div></div>
+    </div>
+    <div class="body">
+      <div class="sec">Constantes — dernier examen</div>
+      <div class="v4">
+        <div class="vb"><div class="vl">Tension artérielle</div><div><span class="vv">120</span><span class="vu">/80 mmHg</span></div><span class="bado" style="margin-top:5px;display:inline-block;">Normale</span></div>
+        <div class="vb"><div class="vl">SpO₂</div><div><span class="vv">98</span><span class="vu"> %</span></div><span class="bado" style="margin-top:5px;display:inline-block;">Excellent</span></div>
+        <div class="vb"><div class="vl">Pouls</div><div><span class="vv">72</span><span class="vu"> bpm</span></div><span class="bado" style="margin-top:5px;display:inline-block;">Normal</span></div>
+        <div class="vb"><div class="vl">Poids</div><div><span class="vv">78</span><span class="vu"> kg</span></div><span class="badw" style="margin-top:5px;display:inline-block;">IMC 25.2</span></div>
+      </div>
+      <div class="sec">Résumé</div>
+      <div class="ali inf"><div class="alico" style="color:#4a9eff;">i</div><div><div class="alt">Prochain rendez-vous</div><div class="ald">Dr. Mourad Alami · 16 Avril 2026 à 10h00</div></div></div>
+      <div class="ali ok"><div class="alico" style="color:#22cc77;">✓</div><div><div class="alt">Bilan sanguin reçu</div><div class="ald">Glycémie 5.2 · Cholestérol 1.8 — dans les normes</div></div></div>
+    </div>
+  </div>
+
+  <!-- Pat tab 1: Mesure device -->
+  <div id="pt1" style="display:none;" class="body">
+    <div class="conn-bar">
+      <div class="dot"></div><span class="ct">Bluetooth connecté</span><span class="cd">MedPulse #A3F2 · 87%</span>
+    </div>
+    <button class="mbtn" id="mBtn" onclick="startMeasure()">Démarrer la mesure</button>
+    <div class="mg4">
+      <div class="mc hlb full">
+        <div class="ml">Tension artérielle</div>
+        <div style="display:flex;align-items:baseline;gap:6px;">
+          <span class="mv vblue" id="bpS">120</span>
+          <span style="font-size:16px;color:#334466;">/</span>
+          <span style="font-size:20px;font-weight:500;color:#4a9eff;" id="bpD">80</span>
+          <span class="mu">mmHg</span>
+        </div>
+        <span class="bado" id="bpSt" style="margin-top:6px;display:inline-block;">Normale</span>
+        <div class="wave-w"><canvas id="wc" width="340" height="44"></canvas></div>
+      </div>
+      <div class="mc"><div class="ml">SpO₂</div><div class="mv vgreen" id="sp2">98</div><div class="mu">%</div></div>
+      <div class="mc"><div class="ml">Pouls (PR)</div><div class="mv vorange" id="prv">72</div><div class="mu">bpm</div></div>
+      <div class="mc"><div class="ml">Indice PI</div><div class="mv vteal" id="piv">3.1</div><div class="mu">%</div></div>
+      <div class="mc"><div class="ml">Dernière mesure</div><div style="font-size:13px;color:#8899bb;margin-top:5px;" id="lastT">Il y a 5 min</div><div class="mu" id="lastD">Auj. 09:36</div></div>
+    </div>
+    <div class="sec">Tendance 7 jours</div>
+    <div class="card">
+      <canvas id="tc" width="340" height="90"></canvas>
+    </div>
+  </div>
+
+  <!-- Pat tab 2: Examens -->
+  <div id="pt2" style="display:none;" class="body">
+    <div class="sec">Mes examens</div>
+    <div class="tli">
+      <div style="display:flex;flex-direction:column;align-items:center;"><div class="tld b"></div><div class="tll" style="height:95px;"></div></div>
+      <div class="tlb"><div class="tlt">Bilan cardiovasculaire MedPulse</div><div class="tldt">09 Avril 2026 · 09:36</div><div class="tr3"><div class="trb"><div class="trv">120/80</div><div class="trl">mmHg</div></div><div class="trb"><div class="trv">98%</div><div class="trl">SpO₂</div></div><div class="trb"><div class="trv">72</div><div class="trl">bpm</div></div></div></div>
+    </div>
+    <div class="tli">
+      <div style="display:flex;flex-direction:column;align-items:center;"><div class="tld a"></div><div class="tll" style="height:95px;"></div></div>
+      <div class="tlb"><div class="tlt">Bilan sanguin complet</div><div class="tldt">02 Avril 2026 · Labo central</div><div class="tr3"><div class="trb"><div class="trv">5.2</div><div class="trl">Glycémie</div></div><div class="trb"><div class="trv">1.8</div><div class="trl">Cholestérol</div></div><div class="trb"><div class="trv">13.5</div><div class="trl">Hémoglobine</div></div></div></div>
+    </div>
+    <div class="tli">
+      <div style="display:flex;flex-direction:column;align-items:center;"><div class="tld g"></div></div>
+      <div class="tlb" style="border:none;"><div class="tlt">Consultation cardiologie</div><div class="tldt">15 Mars 2026 · Dr. Mourad Alami</div><div class="tr3"><div class="trb"><div class="trv">138/88</div><div class="trl">mmHg</div></div><div class="trb"><div class="trv">97%</div><div class="trl">SpO₂</div></div><div class="trb"><div class="trv">78</div><div class="trl">bpm</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- Pat tab 3: Alertes -->
+  <div id="pt3" style="display:none;" class="body">
+    <div class="sec">Mes notifications</div>
+    <div class="ali ok"><div class="alico" style="color:#22cc77;">✓</div><div><div class="alt">Tension normale</div><div class="ald">120/80 mmHg — dans les valeurs de référence</div><div class="altime">Aujourd'hui 09:36</div></div></div>
+    <div class="ali inf"><div class="alico" style="color:#4a9eff;">i</div><div><div class="alt">Rappel de mesure</div><div class="ald">Mesurez à heure fixe chaque jour pour un meilleur suivi</div><div class="altime">Aujourd'hui 09:00</div></div></div>
+    <div class="ali wn"><div class="alico" style="color:#ff9922;">▲</div><div><div class="alt">Tension légèrement élevée</div><div class="ald">138/88 mmHg détectée hier soir — surveillance conseillée</div><div class="altime">Hier 21:15</div></div></div>
+    <div class="ali ok"><div class="alico" style="color:#22cc77;">✓</div><div><div class="alt">SpO₂ satisfaisant</div><div class="ald">Saturation 97–99% sur les 7 derniers jours</div><div class="altime">Hier 08:12</div></div></div>
+  </div>
+
+  <!-- Pat tab 4: Profil -->
+  <div id="pt4" style="display:none;" class="body">
+    <div class="phead">
+      <div class="avtr" style="background:#0d2a1a;color:#22cc77;">AB</div>
+      <div class="an">Ahmed Benali</div>
+      <div class="as2">48 ans · Groupe A+ · 176 cm / 78 kg</div>
+    </div>
+    <div class="s3">
+      <div class="stb"><div class="stn">142</div><div class="stl">Mesures</div></div>
+      <div class="stb"><div class="stn">38</div><div class="stl">Jours</div></div>
+      <div class="stb"><div class="stn" style="color:#22cc77;">97%</div><div class="stl">SpO₂ moy.</div></div>
+    </div>
+    <div class="sec">Appareil connecté</div>
+    <div class="sr"><div class="sric" style="background:#060c1a;">📡</div><div class="srt"><div class="srtt">MedPulse #A3F2</div><div class="srts">Bluetooth 5.0 · Brassard 22–42 cm · Batterie 87%</div></div><span class="chv">›</span></div>
+    <div class="sec">Préférences</div>
+    <div class="sr"><div class="sric" style="background:#0d2a1a;">🔔</div><div class="srt"><div class="srtt">Rappels quotidiens</div><div class="srts">09:00 · 21:00</div></div><button class="tgl" onclick="this.classList.toggle('off')"></button></div>
+    <div class="sr"><div class="sric" style="background:#2a1a0d;">⚠</div><div class="srt"><div class="srtt">Alertes tension élevée</div><div class="srts">Seuil : 140/90 mmHg</div></div><button class="tgl" onclick="this.classList.toggle('off')"></button></div>
+    <div class="sr"><div class="sric" style="background:#1a0d2a;">📤</div><div class="srt"><div class="srtt">Partager avec Dr. Alami</div><div class="srts">Synchronisation automatique</div></div><button class="tgl off" onclick="this.classList.toggle('off')"></button></div>
+    <div class="sr"><div class="sric" style="background:#0d1428;">📊</div><div class="srt"><div class="srtt">Exporter mes données</div><div class="srts">PDF · CSV</div></div><span class="chv">›</span></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const patients=[
+  {i:'AB',bg:'#0d1a30',tc:'#4a9eff',n:'Ahmed Benali',age:48,c:'Hypertension artérielle',med:'Dr. Mourad Alami',dob:'12/06/1977',bl:'A+',ph:'06 61 23 45 67',
+    ex:[{t:'b',ti:'Bilan cardiovasculaire MedPulse',d:'09 Avr 2026',m:[{v:'120/80',l:'mmHg TA'},{v:'98%',l:'SpO₂'},{v:'72',l:'bpm'}]},
+        {t:'a',ti:'Bilan sanguin complet',d:'02 Avr 2026',m:[{v:'5.2',l:'Glycémie'},{v:'1.8',l:'Cholestérol'},{v:'13.5',l:'Hémoglobine'}]},
+        {t:'g',ti:'Consultation cardiologie',d:'15 Mar 2026',m:[{v:'138/88',l:'mmHg TA'},{v:'97%',l:'SpO₂'},{v:'78',l:'bpm'}]}]},
+  {i:'FZ',bg:'#0d2a1a',tc:'#22cc77',n:'Fatima Zahra Idrissi',age:35,c:'Diabète type 2',med:'Dr. Mourad Alami',dob:'03/04/1990',bl:'O+',ph:'06 72 34 56 78',
+    ex:[{t:'a',ti:'Contrôle glycémique',d:'07 Avr 2026',m:[{v:'6.8',l:'Glycémie'},{v:'7.1%',l:'HbA1c'},{v:'68',l:'bpm'}]},
+        {t:'b',ti:'Tension & SpO₂',d:'01 Avr 2026',m:[{v:'115/75',l:'mmHg TA'},{v:'99%',l:'SpO₂'},{v:'65',l:'bpm'}]}]},
+  {i:'KM',bg:'#2a1a0d',tc:'#ff9922',n:'Karim Mansouri',age:62,c:'Insuffisance cardiaque',med:'Dr. Mourad Alami',dob:'18/09/1963',bl:'B+',ph:'06 55 67 89 01',
+    ex:[{t:'b',ti:'Monitoring MedPulse',d:'05 Avr 2026',m:[{v:'158/98',l:'mmHg TA'},{v:'94%',l:'SpO₂'},{v:'88',l:'bpm'}]},
+        {t:'a',ti:'Bilan cardiaque',d:'28 Mar 2026',m:[{v:'52%',l:'FE cardiaque'},{v:'155',l:'BNP'},{v:'95%',l:'SpO₂'}]}]},
+  {i:'SB',bg:'#1a0d2a',tc:'#cc77ff',n:'Sara Benjelloun',age:29,c:'Suivi post-partum',med:'Dr. Mourad Alami',dob:'22/11/1996',bl:'AB-',ph:'06 44 56 78 90',
+    ex:[{t:'g',ti:'Contrôle post-partum',d:'03 Avr 2026',m:[{v:'110/70',l:'mmHg TA'},{v:'99%',l:'SpO₂'},{v:'68',l:'bpm'}]}]}
+];
+
+function goPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function logout(){goPage('pg-land');}
+
+function loginDoc(){
+  const e=document.getElementById('de').value.trim(),p=document.getElementById('dp').value.trim(),er=document.getElementById('derr');
+  if(e==='dr.alami@medpulse.ma'&&p==='1234'){er.style.display='none';goPage('pg-doc');dTab(0);}
+  else er.style.display='block';
+}
+function loginPat(){
+  const e=document.getElementById('pe').value.trim(),p=document.getElementById('pp').value.trim(),er=document.getElementById('perr');
+  if(e==='ahmed.benali@email.ma'&&p==='1234'){er.style.display='none';goPage('pg-pat');pTab(0);drawWave();drawTrend();}
+  else er.style.display='block';
+}
+
+function dTab(n){
+  for(let i=0;i<3;i++){document.getElementById('dt'+i).style.display=i===n?'block':'none';document.getElementById('dn'+i).classList.toggle('active',i===n);}
+}
+function pTab(n){
+  for(let i=0;i<5;i++){document.getElementById('pt'+i).style.display=i===n?'block':'none';document.getElementById('pn'+i).classList.toggle('active',i===n);}
+  if(n===1){setTimeout(()=>{drawWave();drawTrend();},80);}
+}
+
+function filterP(q){
+  document.querySelectorAll('.pr').forEach(r=>{r.style.display=r.innerText.toLowerCase().includes(q.toLowerCase())?'flex':'none';});
+}
+
+function openD(idx){
+  const pt=patients[idx];
+  const exHtml=pt.ex.map(ex=>`
+    <div class="ec">
+      <div class="eh">
+        <div class="ei ${ex.t}"><svg viewBox="0 0 24 24" fill="${ex.t==='b'?'#4a9eff':ex.t==='g'?'#22cc77':'#ff9922'}" width="16" height="16"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm6 11v3h3v2h-3v3h-2v-3h-3v-2h3v-3h2z"/></svg></div>
+        <div><div class="et">${ex.ti}</div><div class="ed">${ex.d}</div></div>
+      </div>
+      <div class="em3">${ex.m.map(m=>`<div class="emb"><div class="emv">${m.v}</div><div class="eml">${m.l}</div></div>`).join('')}</div>
+    </div>`).join('');
+  document.getElementById('dos-content').innerHTML=`
+    <div class="dh">
+      <div class="dav" style="background:${pt.bg};color:${pt.tc};">${pt.i}</div>
+      <div style="flex:1;">
+        <div class="dn">${pt.n}</div>
+        <div class="ds">${pt.age} ans · ${pt.c}</div>
+        <div class="ig">
+          <div class="ii"><span class="il">Naissance : </span><span class="iv">${pt.dob}</span></div>
+          <div class="ii"><span class="il">Groupe : </span><span class="iv">${pt.bl}</span></div>
+          <div class="ii"><span class="il">Tél : </span><span class="iv">${pt.ph}</span></div>
+          <div class="ii"><span class="il">Médecin : </span><span class="iv">${pt.med}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="sec">Historique examens (${pt.ex.length})</div>${exHtml}`;
+  goPage('pg-dos');
+}
+
+let measuring=false;
+function startMeasure(){
+  if(measuring)return;
+  measuring=true;
+  const btn=document.getElementById('mBtn');
+  btn.classList.add('m');
+  let s=12;
+  btn.textContent=`Mesure en cours... ${s}s`;
+  const iv=setInterval(()=>{
+    s--;btn.textContent=`Mesure en cours... ${s}s`;
+    if(s<=0){clearInterval(iv);finishMeasure();}
+  },1000);
+}
+function finishMeasure(){
+  measuring=false;
+  const btn=document.getElementById('mBtn');
+  btn.classList.remove('m');btn.textContent='Démarrer la mesure';
+  const sys=115+Math.round(Math.random()*20),dia=72+Math.round(Math.random()*14);
+  const spo=96+Math.round(Math.random()*3),pr=65+Math.round(Math.random()*20);
+  const pi=(2.5+Math.random()*2).toFixed(1);
+  document.getElementById('bpS').textContent=sys;
+  document.getElementById('bpD').textContent=dia;
+  document.getElementById('sp2').textContent=spo;
+  document.getElementById('prv').textContent=pr;
+  document.getElementById('piv').textContent=pi;
+  const st=document.getElementById('bpSt');
+  if(sys<130&&dia<85){st.textContent='Normale';st.className='bado';}
+  else{st.textContent='Élevée';st.className='badw';}
+  const now=new Date();
+  document.getElementById('lastT').textContent="À l'instant";
+  document.getElementById('lastD').textContent=`Auj. ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+
+function drawWave(){
+  const c=document.getElementById('wc');if(!c)return;
+  const ctx=c.getContext('2d');const w=c.width,h=c.height;
+  let off=0;
+  function frame(){
+    ctx.fillStyle='#060c1a';ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='#22cc77';ctx.lineWidth=1.5;ctx.beginPath();
+    for(let x=0;x<w;x++){
+      const t=(x+off)/32;
+      const y=h/2-Math.sin(t)*10-Math.sin(t*2.5)*5-Math.sin(t*.4)*3;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();off+=1.5;
+    if(document.getElementById('pt1')&&document.getElementById('pt1').style.display!=='none')requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawTrend(){
+  const c=document.getElementById('tc');if(!c)return;
+  const ctx=c.getContext('2d');const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+  const sy=[118,122,130,120,138,124,120],di=[78,80,84,79,88,81,80];
+  const days=['L','M','M','J','V','S','D'];
+  const pl={l:22,r:6,t:6,b:20};
+  const pw=w-pl.l-pl.r,ph=h-pl.t-pl.b;
+  const mn=60,mx=150;
+  const toY=v=>pl.t+ph-((v-mn)/(mx-mn))*ph;
+  const toX=i=>pl.l+(i/(sy.length-1))*pw;
+  ctx.strokeStyle='#1e2a4a';ctx.lineWidth=.5;
+  [80,100,120,140].forEach(v=>{const y=toY(v);ctx.beginPath();ctx.moveTo(pl.l,y);ctx.lineTo(w-pl.r,y);ctx.stroke();ctx.fillStyle='#2a3a55';ctx.font='9px sans-serif';ctx.fillText(v,0,y+3);});
+  [[sy,'#4a9eff'],[di,'#11ddcc']].forEach(([pts,col])=>{
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.beginPath();
+    pts.forEach((v,i)=>{const x=toX(i),y=toY(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+    ctx.stroke();
+    pts.forEach((v,i)=>{ctx.fillStyle=col;ctx.beginPath();ctx.arc(toX(i),toY(v),2.5,0,Math.PI*2);ctx.fill();});
+  });
+  ctx.fillStyle='#334466';ctx.font='9px sans-serif';
+  days.forEach((d,i)=>ctx.fillText(d,toX(i)-3,h-2));
+}
+</script>
